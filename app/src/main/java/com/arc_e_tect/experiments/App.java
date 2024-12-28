@@ -11,6 +11,5 @@ public class App {
         SpringApplication.run(App.class, args);
 
         log.info("Spring Boot application started successfully.");
-        log.debug("This is a debug message.");
     }
 }
