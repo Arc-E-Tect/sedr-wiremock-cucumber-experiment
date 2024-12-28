@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/",
+    "headers": {
+      "Accept": {
+        "equalTo": "application/json"
+      }
+    }
+  },
+  "response": {
+    "proxyBaseUrl": "http://localhost:9090"
+  }
+}
