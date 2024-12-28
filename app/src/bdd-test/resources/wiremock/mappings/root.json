@@ -6,8 +6,8 @@
   "response": {
     "status": 200,
     "headers" : {
-      "Content-Type" : [ "text/plain"]
+      "Content-Type" : [ "application/json"]
     },
-    "body" : "Hello, it works"
+    "bodyFileName" : "responseRoot.json"
   }
 }
