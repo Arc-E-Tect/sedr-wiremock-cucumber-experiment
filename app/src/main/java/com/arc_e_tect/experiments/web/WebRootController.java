@@ -17,7 +17,7 @@ public class WebRootController {
         log.info("index() called");
 
         VersionModel response = new VersionModel();
-        response.setVersionName("WIREMOCK");
+        response.setVersionName("REAL SERVICE");
         response.setVersionCode(1.0);
 
         return response;
