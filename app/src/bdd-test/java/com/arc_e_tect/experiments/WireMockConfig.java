@@ -21,18 +21,20 @@ public class WireMockConfig {
 
     @PostConstruct
     public void initWireMockConfig() {
-        log.debug("Initializing WireMockConfiguration with host: {} and port: {}", wireMockHost, wireMockPort);
+        log.debug("Initializing WireMock Client with host: {} and port: {}", wireMockHost, wireMockPort);
 
         WireMock.configureFor(wireMockHost, wireMockPort);
     }
 
     @Bean
     public WireMockServer wireMockServer() {
-        log.debug("Initializing WireMockServer with host: {} and port: {}", wireMockHost, wireMockPort);
+        log.debug("Initializing WireMock Server with host: {} and port: {}", wireMockHost, wireMockPort);
 
-        WireMockServer wireMockServer = new WireMockServer(options().port(wireMockPort).bindAddress(wireMockHost));
-
-        return wireMockServer;
+        return new WireMockServer(options()
+                .port(wireMockPort)
+                .bindAddress(wireMockHost)
+                .usingFilesUnderDirectory("wiremock")
+        );
     }
 
 }
