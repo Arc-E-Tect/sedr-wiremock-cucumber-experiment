@@ -1,0 +1,46 @@
+<configuration>
+    <springProfile name="default">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <withJansi>true</withJansi>
+            <encoder>
+                <pattern>
+                    %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1}): %msg%n%throwable
+                </pattern>
+            </encoder>
+        </appender>
+
+        <root level="WARN">
+            <appender-ref ref="CONSOLE" />
+        </root>
+
+        <logger name="com.arc_e_tect.experiments" level="info" additivity="false">
+            <appender-ref ref="Console" />
+        </logger>
+    </springProfile>
+
+    <springProfile name="bddtest">
+        <withJansi>true</withJansi>
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>
+                    %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1}): %msg%n%throwable
+                </pattern>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+        </root>
+
+        <logger name="ch.qos.logback" level="warn" additivity="false">
+            <appender-ref ref="Console" />
+        </logger>
+
+        <!-- LOG "com.arc_e_tect.experiments*" at TRACE level -->
+        <logger name="com.arc_e_tect.experiments" level="trace" additivity="false">
+            <appender-ref ref="Console" />
+        </logger>
+    </springProfile>
+
+</configuration>
+

@@ -1,0 +1,124 @@
+/*
+ * This is the build-file for the WireMock Cucumber experiment.
+ */
+
+import static de.fayard.refreshVersions.core.Versions.versionFor
+
+plugins {
+    // Apply the application plugin to add support for building a CLI application in Java.
+    id 'application'
+
+    alias libs.plugins.io.freefair.lombok
+
+    alias libs.plugins.io.spring.dependency.management
+    alias libs.plugins.org.springframework.boot
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+version = project.version
+
+dependencies {
+    testImplementation libs.bundles.junit
+    testImplementation libs.bundles.cucumber
+    testImplementation libs.bundles.logging
+
+    implementation libs.bundles.spring.boot
+
+    compileOnly libs.jakarta.servlet.api
+
+}
+
+// Apply a specific Java toolchain to ease working on different environments.
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.arc_e_tect.experiments.App'
+}
+
+testing {
+    suites {
+        test {
+            useJUnitJupiter()
+        }
+
+        bddTest(JvmTestSuite) {
+            dependencies {
+                implementation project()
+            }
+
+            sources {
+                java {
+                    srcDirs = ['src/bdd-test/java']
+                }
+                resources {
+                    srcDirs = ['src/bdd-test/resources']
+                }
+            }
+
+            targets {
+                configureEach {
+                    testTask.configure {
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+configurations {
+    bddTestImplementation.extendsFrom testImplementation
+}
+
+tasks.named('check') {
+    dependsOn(testing.suites.bddTest)
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+
+    systemProperty("cucumber.junit-platform.naming-strategy", "long")
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    testLogging.showStandardStreams = true
+    reports {
+        junitXml.required = true
+        html.required = true
+    }
+}
+
+
+bootJar {
+    mainClass  = 'com.arc_e_tect.experiments.App'
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            name = "WCE: Wiremock Cucumber Experiment"
+            additional = [
+                    by: System.properties['user.name'],
+                    continuousIntegration: System.getenv('CI') ? true: false,
+            ]
+        }
+    }
+}
+
+// ------------------------------------------------------------
+// WireMock
+
+dependencies {
+    implementation 'org.wiremock.integrations:wiremock-spring-boot:3.3.0'
+}
