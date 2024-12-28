@@ -1,6 +1,5 @@
-package com.arc_e_tect.experiments.wiremock.cucumber.steps;
+package com.arc_e_tect.experiments;
 
-import com.arc_e_tect.experiments.wiremock.cucumber.StepData;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -35,8 +34,7 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 @NoArgsConstructor
 @Component
 @Scope(SCOPE_CUCUMBER_GLUE)
-public class SystemHealthHttpClient {
-
+public class HttpTestClient {
     @Getter
     protected WebClient apiClient;
 
@@ -44,7 +42,7 @@ public class SystemHealthHttpClient {
     @Value("${server.baseurl}")
     private String baseUrl;
 
-    @Value("${mock.port}")
+    @Value("${wiremock.server.port}")
     private Integer mockPort;
 
     @Value("${response.timeout}")

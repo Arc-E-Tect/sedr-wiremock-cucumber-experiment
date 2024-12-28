@@ -1,5 +1,6 @@
-package com.arc_e_tect.experiments.wiremock.cucumber;
+package com.arc_e_tect.experiments;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
@@ -7,6 +8,7 @@ import org.junit.platform.suite.api.Suite;
 
 import static io.cucumber.junit.platform.engine.Constants.*;
 
+@Slf4j
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("com/arc_e_tect")

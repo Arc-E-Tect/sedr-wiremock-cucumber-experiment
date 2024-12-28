@@ -1,6 +1,5 @@
-package com.arc_e_tect.experiments.wiremock.cucumber;
+package com.arc_e_tect.experiments;
 
-import com.arc_e_tect.experiments.App;
 import io.cucumber.spring.CucumberContextConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +10,6 @@ import org.springframework.test.context.ActiveProfiles;
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = App.class)
 @ActiveProfiles({"bddtest"})
-@Import(TestConfig.class)
+@Import(WireMockConfig.class)
 public class CucumberConfiguration {
 }

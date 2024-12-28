@@ -1,4 +1,4 @@
-package com.arc_e_tect.experiments.wiremock.cucumber;
+package com.arc_e_tect.experiments;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
