@@ -3,12 +3,12 @@ package com.arc_e_tect.experiments;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 
@@ -23,7 +23,7 @@ public class Steps {
     boolean systemIsUpAndRunning = false;
 
     @Autowired
-    HttpTestClient systemHealthHttpClient;
+    HttpTestClient testClient;
 
     @Autowired
     StepData stepData;
@@ -37,7 +37,7 @@ public class Steps {
         wireMockServer.start();
     }
 
-    @BeforeEach
+    @Before
     public void beforeEach() {
         log.debug("Steps beforeEach");
         wireMockServer.resetAll();
@@ -50,11 +50,18 @@ public class Steps {
         stubFor(
                 get("/")
                         .withHeader("Accept", WireMock.equalTo("application/json"))
-                        .willReturn(okJson("[]"))
+                        .willReturn(okJson(
+                                """       
+                                        {
+                                            "versionName" : "WIREMOCK",
+                                            "versionCode" : 1.0
+                                        }
+                                      """
+                        ))
         );
 
-        systemHealthHttpClient.executeGet();
-        systemIsUpAndRunning = systemHealthHttpClient.getStepData().getHttpStatus().is2xxSuccessful();
+        testClient.executeGet();
+        systemIsUpAndRunning = testClient.getStepData().getHttpStatus().is2xxSuccessful();
         assertTrue(systemIsUpAndRunning);
     }
 
@@ -65,11 +72,17 @@ public class Steps {
         stubFor(
                 get("/health")
                         .withHeader("Accept", WireMock.equalTo("application/json"))
-                        .willReturn(okJson("[]"))
+                        .willReturn(okJson(
+                                """
+                                        {
+                                          "status" : "up and running"
+                                        }
+                                      """
+                        ))
         );
 
-        systemHealthHttpClient.getSystemHealth();
-        stepData = systemHealthHttpClient.getStepData();
+        testClient.getSystemHealth();
+        stepData = testClient.getStepData();
     }
 
     @Then("the system reports that it is {string}")
