@@ -1,9 +1,6 @@
 /*
  * This is the build-file for the WireMock Cucumber experiment.
  */
-
-import static de.fayard.refreshVersions.core.Versions.versionFor
-
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
@@ -120,5 +117,5 @@ springBoot {
 // WireMock
 
 dependencies {
-    implementation 'org.wiremock.integrations:wiremock-spring-boot:3.3.0'
+    testImplementation group: 'org.wiremock', name: 'wiremock', version: '3.10.0'
 }
