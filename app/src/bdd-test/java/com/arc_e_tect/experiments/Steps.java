@@ -2,7 +2,6 @@ package com.arc_e_tect.experiments;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,17 +9,19 @@ import io.cucumber.java.en.When;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @Scope(SCOPE_CUCUMBER_GLUE)
 public class Steps {
     boolean systemIsUpAndRunning = false;
+
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     HttpTestClient testClient;
@@ -43,22 +44,27 @@ public class Steps {
         wireMockServer.resetAll();
     }
 
+    @Given("the application is deployed")
+    public void theApplicationsIsDeployed() {
+        log.debug("Given the application is deployed");
+
+        assertNotNull(context);
+    }
+
     @Given("the system is up and running")
     public void theSystemIsUpAndRunning() {
         log.debug("Given the system is up and running");
 
-        stubFor(
-                get("/")
-                        .withHeader("Accept", WireMock.equalTo("application/json"))
-                        .willReturn(okJson(
-                                """       
-                                        {
-                                            "versionName" : "WIREMOCK",
-                                            "versionCode" : 1.0
-                                        }
-                                      """
-                        ))
-        );
+        log.info("Setting up WireMock stubs to proxy to the real application at {} on port {}",
+                testClient.getBaseUrl(),
+                testClient.getPort());
+
+//        stubFor(
+//                get(urlMatching("/"))
+//                        .withHeader("Accept", WireMock.equalTo("application/json"))
+//                        .willReturn(aResponse().proxiedFrom(
+//                                testClient.getBaseUrl() + ":" + testClient.getPort()))
+//        );
 
         testClient.executeGet();
         systemIsUpAndRunning = testClient.getStepData().getHttpStatus().is2xxSuccessful();
@@ -68,18 +74,6 @@ public class Steps {
     @When("the system health information is retrieved")
     public void theSystemHealthInformationIsRetrieved() {
         log.debug("When the system health information is retrieved");
-
-        stubFor(
-                get("/health")
-                        .withHeader("Accept", WireMock.equalTo("application/json"))
-                        .willReturn(okJson(
-                                """
-                                        {
-                                          "status" : "up and running"
-                                        }
-                                      """
-                        ))
-        );
 
         testClient.getSystemHealth();
         stepData = testClient.getStepData();
