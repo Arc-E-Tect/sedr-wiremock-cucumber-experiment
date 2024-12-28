@@ -9,7 +9,7 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 
 @Suite
 @IncludeEngines("cucumber")
-@SelectClasspathResource("com/arc_e_tect/book/sedr")
+@SelectClasspathResource("com/arc_e_tect")
 @ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty," +
         "html:build/reports/bdd-test/Cucumber.html")
 @ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "not @ignore and not @wip")
