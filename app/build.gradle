@@ -117,5 +117,5 @@ springBoot {
 // WireMock
 
 dependencies {
-    testImplementation group: 'org.wiremock', name: 'wiremock', version: '3.10.0'
+    implementation 'org.wiremock.integrations:wiremock-spring-boot:3.3.0'
 }
