@@ -7,7 +7,6 @@ junit = ["junit-jupiter", "junit-platform-launcher", "junit-platform-suite"]
 logging = ["slf4j-api", "logback-classic", "logback-core", "jansi"]
 spring-boot = ["spring-boot-starter", "spring-boot-start-web", "spring-boot-start-hateoas", "spring-boot-start-actuator",
     "spring-boot-start-webflux", "spring-boot-starter-test", "spring-boot-start-logging"]
-spring-restdocs = ["spring-restdocs-mockmvc", "spring-restdocs-webtestclient"]
 
 [plugins]
 
@@ -16,8 +15,6 @@ io-freefair-lombok = { id = "io.freefair.lombok", version = "8.11" }
 org-springframework-boot = { id = "org.springframework.boot", version = "3.4.1" }
 
 io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
-
-com-avast-gradle-docker-compose = { id = "com.avast.gradle.docker-compose", version = "0.17.12" }
 
 [versions]
 
@@ -41,29 +38,27 @@ spring-webflux = "6.2.1"
 [libraries]
 
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit-jupiter" }
-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit-platform" }
+junit-platform-launcher = "org.junit.platform:junit-platform-launcher:1.11.4"
 junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit" }
-junit-platform-suite = { module = "org.junit.platform:junit-platform-suite", version.ref = "junit-platform" }
+junit-platform-suite = "org.junit.platform:junit-platform-suite:1.11.4"
 
-cucumber-junit-platform-engine = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumber" }
-cucumber-java = { module = "io.cucumber:cucumber-java", version.ref = "cucumber" }
-cucumber-spring = { module = "io.cucumber:cucumber-spring", version.ref = "cucumber" }
+cucumber-junit-platform-engine = "io.cucumber:cucumber-junit-platform-engine:7.20.1"
+cucumber-java = "io.cucumber:cucumber-java:7.20.1"
+cucumber-spring = "io.cucumber:cucumber-spring:7.20.1"
 
-slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
-logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-logback-core = { module = "ch.qos.logback:logback-core", version.ref = "logback" }
-jansi = { module = "org.fusesource.jansi:jansi", version.ref = "jansi" }
+slf4j-api = "org.slf4j:slf4j-api:2.0.16"
+logback-classic = "ch.qos.logback:logback-classic:1.5.15"
+logback-core = "ch.qos.logback:logback-core:1.5.15"
+jansi = "org.fusesource.jansi:jansi:2.4.1"
 
-spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "spring-boot" }
+spring-boot-starter = "org.springframework.boot:spring-boot-starter:3.4.1"
+spring-boot-starter-test = "org.springframework.boot:spring-boot-starter-test:3.4.1"
 spring-boot-start-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
 spring-boot-start-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas", version.ref = "spring-boot" }
 spring-boot-start-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "spring-boot" }
 spring-boot-start-webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "spring-boot" }
 spring-boot-start-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring-boot" }
-spring-boot-starter-logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "spring-boot" }
 
-spring-restdocs-mockmvc = { module = "org.springframework.restdocs:spring-restdocs-mockmvc", version.ref = "spring-restdocs" }
-spring-restdocs-webtestclient = { module = "org.springframework.restdocs:spring-restdocs-webtestclient", version.ref = "spring-restdocs" }
+jakarta-servlet-api = "jakarta.servlet:jakarta.servlet-api:6.1.0"
 
-jakarta-servlet-api = { module = "jakarta.servlet:jakarta.servlet-api", version.ref = "jakarta" }
+wiremock-spring-boot = "org.wiremock.integrations:wiremock-spring-boot:3.4.0"
