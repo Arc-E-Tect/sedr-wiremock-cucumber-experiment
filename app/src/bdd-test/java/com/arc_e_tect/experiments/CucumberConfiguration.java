@@ -19,11 +19,6 @@ public class CucumberConfiguration {
 
     protected CucumberConfiguration(WireMockServer wireMockServer) {
         this.wireMockServer = wireMockServer;
-    }
-
-    @PostConstruct
-    public void postConstruction() {
-        log.debug("Steps was constructed");
         wireMockServer.start();
     }
 
