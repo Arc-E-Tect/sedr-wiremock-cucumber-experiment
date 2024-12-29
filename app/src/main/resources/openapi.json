@@ -1,0 +1,65 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "WCE - WireMock, Cucumber, and Spring Boot definitive guide API",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:9090",
+      "description": "local"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get application root",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "versionName": {
+                      "type": "string",
+                      "example": "REAL SERVICE"
+                    },
+                    "versionCode": {
+                      "type": "number",
+                      "example": 1.0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Check the health status",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "up and running"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
