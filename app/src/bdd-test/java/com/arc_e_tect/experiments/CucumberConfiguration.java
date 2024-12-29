@@ -15,8 +15,11 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles({"bddtest"})
 @Import(WireMockConfig.class)
 public class CucumberConfiguration {
-    @Autowired
     WireMockServer wireMockServer;
+
+    protected CucumberConfiguration(WireMockServer wireMockServer) {
+        this.wireMockServer = wireMockServer;
+    }
 
     @PostConstruct
     public void postConstruction() {
