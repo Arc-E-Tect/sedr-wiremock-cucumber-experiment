@@ -48,6 +48,9 @@ public class Steps {
                 testClient.getBaseUrl(),
                 testClient.getPort());
 
+// Do NOT uncomment the code below
+// Below code is commented as it is not needed, but does show how to define a stub for WireMock that proxies to the real application
+//
 //        stubFor(
 //                get(urlMatching("/"))
 //                        .withHeader("Accept", WireMock.equalTo("application/json"))
