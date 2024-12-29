@@ -9,9 +9,8 @@ import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.hateoas.RepresentationModel;
@@ -31,7 +30,7 @@ import java.io.IOException;
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 @Slf4j
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Component
 @Scope(SCOPE_CUCUMBER_GLUE)
 public class HttpTestClient {
@@ -48,9 +47,8 @@ public class HttpTestClient {
     @Value("${response.timeout}")
     private Integer responseTimeout;
 
-    @Autowired
     @Getter
-    protected StepData stepData;
+    protected final StepData stepData;
 
     @Getter
     @Value("${local.server.port}")
