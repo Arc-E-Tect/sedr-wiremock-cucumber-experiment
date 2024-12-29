@@ -19,8 +19,7 @@ public class WireMockConfig {
     @Value("${wiremock.server.host:127.0.0.1}")
     private String wireMockHost;
 
-    @PostConstruct
-    public void initWireMockConfig() {
+    public void WireMockConfig() {
         log.debug("Initializing WireMock Client with host: {} and port: {}", wireMockHost, wireMockPort);
 
         WireMock.configureFor(wireMockHost, wireMockPort);
