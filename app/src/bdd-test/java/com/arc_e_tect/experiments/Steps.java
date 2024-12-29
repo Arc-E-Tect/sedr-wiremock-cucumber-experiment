@@ -6,7 +6,6 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -31,12 +30,6 @@ public class Steps {
 
     @Autowired
     WireMockServer wireMockServer;
-
-    @PostConstruct
-    public void postConstruction() {
-        log.debug("Steps was constructed");
-        wireMockServer.start();
-    }
 
     @Before
     public void beforeEach() {

@@ -1,7 +1,10 @@
 package com.arc_e_tect.experiments;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import io.cucumber.spring.CucumberContextConfiguration;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
@@ -12,4 +15,13 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles({"bddtest"})
 @Import(WireMockConfig.class)
 public class CucumberConfiguration {
+    @Autowired
+    WireMockServer wireMockServer;
+
+    @PostConstruct
+    public void postConstruction() {
+        log.debug("Steps was constructed");
+        wireMockServer.start();
+    }
+
 }
