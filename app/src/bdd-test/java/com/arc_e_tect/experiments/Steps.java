@@ -6,6 +6,7 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -15,21 +16,16 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
+@RequiredArgsConstructor
 @Scope(SCOPE_CUCUMBER_GLUE)
 public class Steps {
     boolean systemIsUpAndRunning = false;
 
-    @Autowired
-    private ApplicationContext context;
+    private final ApplicationContext context;
 
-    @Autowired
-    HttpTestClient testClient;
+    private final HttpTestClient testClient;
 
-    @Autowired
-    StepData stepData;
-
-    @Autowired
-    WireMockServer wireMockServer;
+    private final WireMockServer wireMockServer;
 
     @Before
     public void beforeEach() {
@@ -69,12 +65,11 @@ public class Steps {
         log.debug("When the system health information is retrieved");
 
         testClient.getSystemHealth();
-        stepData = testClient.getStepData();
     }
 
     @Then("the system reports that it is {string}")
     public void theSystemReportsThatItIs(String expectedHealthStatus) {
-        JsonNode node = stepData.getResponseJsonNode();
+        JsonNode node = testClient.getStepData().getResponseJsonNode();
         String healthStatus = node.get("status").asText();
         assertEquals(expectedHealthStatus, healthStatus);
     }
