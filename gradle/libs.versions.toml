@@ -47,8 +47,8 @@ cucumber-java = "io.cucumber:cucumber-java:7.20.1"
 cucumber-spring = "io.cucumber:cucumber-spring:7.20.1"
 
 slf4j-api = "org.slf4j:slf4j-api:2.0.16"
-logback-classic = "ch.qos.logback:logback-classic:1.5.15"
-logback-core = "ch.qos.logback:logback-core:1.5.15"
+logback-classic = "ch.qos.logback:logback-classic:1.5.16"
+logback-core = "ch.qos.logback:logback-core:1.5.16"
 jansi = "org.fusesource.jansi:jansi:2.4.1"
 
 spring-boot-starter = "org.springframework.boot:spring-boot-starter:3.4.1"
@@ -61,4 +61,4 @@ spring-boot-start-logging = { module = "org.springframework.boot:spring-boot-sta
 
 jakarta-servlet-api = "jakarta.servlet:jakarta.servlet-api:6.1.0"
 
-wiremock-spring-boot = "org.wiremock.integrations:wiremock-spring-boot:3.4.0"
+wiremock-spring-boot = "org.wiremock.integrations:wiremock-spring-boot:3.5.1"
