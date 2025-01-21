@@ -27,24 +27,17 @@
 
 package com.arc_e_tect.experiments;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
 import io.cucumber.spring.CucumberContextConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.wiremock.spring.ConfigureWireMock;
+import org.wiremock.spring.EnableWireMock;
 
 @Slf4j
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = App.class)
 @ActiveProfiles({"bddtest"})
-@Import(WireMockConfig.class)
+@EnableWireMock(@ConfigureWireMock(registerSpringBean = true))
 public class CucumberConfiguration {
-    WireMockServer wireMockServer;
-
-    protected CucumberConfiguration(WireMockServer wireMockServer) {
-        this.wireMockServer = wireMockServer;
-        wireMockServer.start();
-    }
-
 }

@@ -28,7 +28,6 @@
 package com.arc_e_tect.experiments;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.tomakehurst.wiremock.WireMockServer;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -51,12 +50,9 @@ public class Steps {
 
     private final HttpTestClient testClient;
 
-    private final WireMockServer wireMockServer;
-
     @Before
     public void beforeEach() {
         log.debug("Steps beforeEach");
-        wireMockServer.resetAll();
     }
 
     @Given("the application is deployed")

@@ -59,14 +59,14 @@ I am covering API-First and how to apply it in developing applications that expo
 
 ### WireMock and Spring Boot
 
-WireMock has native support for Spring Boot, or maybe it is more accurate to say that Spring Boot has native support for WireMock. Either way, there is a WireMock library available that allows you to use WireMock in your Spring Boot applications to stub external APIs.
+WireMock has native support for Spring Boot, or maybe it is more accurate to say that it has native support for WireMock. Either way, a WireMock library is available that allows you to use WireMock in your Spring Boot applications to stub external APIs.
 
-The intention of this library is to make you less dependent on APIs delivered by services that are not delivered by you. In a microservice architecture, this could be microservices developed by other teams, or possibly microservices that are not available in your development environment.
+This library's intention is to make you less dependent on APIs delivered by services that are not delivered by you. In microservice architecture, this could be microservices developed by other teams or possibly microservices that are not available in your development environment.
 
-I wrote an article on the importance of ensuring your software, especially when developing microservices, is deployable. When you have to deal with microservices that are not available in your development environment, share this article with your colleagues and point out to them that they are costing your organization millions of €s because they either didn’t read the article or didn’t take it to heart. [The forgotten abilities—Deployability](https://medium.com/geekculture/the-forgotten-abilities-deployability-634819e83428?sk=532f77c18a6b4200bc6f76f89c5e68fd).
+I wrote an article on ensuring your software is deployable, especially when developing microservices. When you must deal with unavailable microservices in your development environment, share this article with your colleagues and point out to them that they are costing your organization millions of €s because they either didn't read the article or didn't take it to heart. [The forgotten abilities—Deployability](https://medium.com/geekculture/the-forgotten-abilities-deployability-634819e83428?sk=532f77c18a6b4200bc6f76f89c5e68fd).
 
 By using WireMock, you can replace every API call to the external service with a WireMock stub, thus simulating the external service’s existence. Of course, you’ll need to have an accurate description of the external API for this to work.  
-WireMock integration with Spring Boot is primarily intended to test your application. It is superb in that it provides programmatic access to WireMock, so you can configure it dynamically as per the specific cases required by your application. For this purpose, I would recommend against using WireMock in a standalone configuration, for example, containerized or as a separate Java application, as that would be less flexible and definitely harder to share in a shared environment like a UAT setup.
+WireMock's Spring Boot integration, with the release of version 3.6, allows the use of Gradle's support of Cucumber-runners as a native jUnit test engine. This allows you to adopt Consumer Contract Driven Development as your way of API First development. For this purpose, I would recommend against using WireMock in a standalone configuration, for example, containerized or as a separate Java application, as that would be less flexible and definitely harder to share in a shared environment like a UAT setup.
 
 You can find the WireMock integration libraries for Spring Boot here: [org.wiremock.integrations](https://mvnrepository.com/artifact/org.wiremock.integrations)
 
@@ -92,7 +92,7 @@ The combination of WireMock and Cucumber is therefore not intended to test your 
 
 ## Getting it all to work
 
-I will not go into details what is not working when you try to use the official ways to integrate WireMock and Spring Boot or Cucumber and WireMock or all three together. I will also not explain why this is not working. There is a discussion in the WireMock GitHub project on using WireMock in Cucumber glue-code to test Spring Boot applications using the WireMock integration libraries and why it doesn’t work, in case you’re interested. See [wiremock-spring-boot with a BDD Cucumber step definition](https://github.com/wiremock/wiremock-spring-boot/discussions/22).
+I will not go into details what is not working when you try to use the official ways to integrate WireMock and Spring Boot or Cucumber and WireMock or all three together. I will also not explain why this is not working. There is a discussion in the WireMock GitHub project on using WireMock in Cucumber glue-code to test Spring Boot applications using the WireMock integration libraries and why it doesn’t work, in case you’re interested. See [wiremock-spring-boot with a BDD Cucumber step definition](https://github.com/wiremock/wiremock-spring-boot/discussions/22). The issue mentioned in discussion #22 has been formulated in issue #73, which has been addressed in PR #77. See [@InjectWireMock not working in conjunction with Cucumber](https://github.com/wiremock/wiremock-spring-boot/issues/73)
 
 ### Project structure
 
@@ -112,7 +112,7 @@ By putting the stub definitions outside of the `app/src/` subtree, the stubs are
 I have made sure that WireMock is configured to run on a different port than the standard port `8080` because that is also the standard port for servlet containers like Apache Tomcat.
 
 In the set up found on GitHub, you will find that I’ve already implemented one of the two APIs and therefore use WireMock’s proxy-feature. This shows how to configure WireMock to gradually replace stubs with the actual implementations, facilitating true agile software delivery based on increments and iterations.  
-Although the annotations introduced by WireMock’s native support for Spring Boot won’t work with Cucumber, the dependency on WireMock is still required and should therefore be based on `“org.wiremock.integrations:wiremock-spring-boot”` library instead of the regular `“org.wiremock:wiremock”` library. With the latter I had problems sharing WireMock definitions across different classes in my Cucumber glue-code.  
+The annotations introduced by WireMock’s native support for Spring Boot work with Cucumber since version 3.6.0.  
 Switching to the former library solved all issues. This was pretty unintuitive, since the WireMock Spring Boot integration using the @InjectWireMock annotation, which is the advertised way of injecting WireMock objects doesn’t work in conjunction with Cucumber. One would think that the Spring Boot integration would not be needed and the standard WireMock library would suffice, but that turned out to be a wrong assumption.
 
 I’m using Gradle’s version catalog way of defining dependencies as it gives more flexibility on managing dependency versions.
@@ -121,87 +121,34 @@ As mentioned, the BDD part of this application is located in the `app/src/bdd-te
 
 ## The source code
 
-The WireMock server is created in the `WireMockConfig` class, which is also used to contain some key WireMock configuration settings:
-* The port on which WireMock is running, default is `8080` but it is configured using the `application.propperties` file to run on `9090`.
+The WireMock server is no longer created in the WireMockConfig class, which is removed from the project as it is no longer needed. Instead, the WireMock server is injected in the CucumberConfig class by means of the @EnableWireMock annotation.
+* The port on which WireMock is running, default is `8080` is configured using the `application.propperties` file to run on `9090`.
 * The host for which WireMock is running, defaults is `127.0.0.1` and it is configured using the `application.propperties` file to run on `localhost`.
- 
-```java
-@TestConfiguration
-public class WireMockConfig {
-    @Value(“${wiremock.server.port:8080}”)
-    private Integer wireMockPort;
-    
-    @Value(“${wiremock.server.host:127.0.0.1}”)
-    private String wireMockHost;
-
-    @PostConstruct
-    public void initWireMockConfig() {
-        log.debug(“Initializing WireMock Client with host: {} and port: {}”, wireMockHost, wireMockPort);
-        WireMock.configureFor(wireMockHost, wireMockPort);
-    }
-    
-    @Bean
-    public WireMockServer wireMockServer() {
-        log.debug(“Initializing WireMock Server with host: {} and port: {}”, wireMockHost, wireMockPort);
-        return new WireMockServer(options()
-                .port(wireMockPort)
-                .bindAddress(wireMockHost)
-                .usingFilesUnderDirectory(“wiremock”)
-        );
-    }
-}
-```
-
-As the `WireMockConfig` is constructed, the WireMock client is configured as well.
-I prefer to handle this as soon as possible, but it is required that this is handled before the WireMockServer is created.
-
-The WireMock server is created in the `wireMockServer` method, which is annotated with `@Bean` so it can be injected whenever needed.
-
-See below for how this is done in the `CucumberConfiguration` and the `Steps` class.
-The construction of the WireMockServer is done using the `options()` method, which allows you to set the port and the host on which the WireMock server is running as well as the location where the stubs are located.
-Note that `.usingFilesUnderDirectory(“wiremock”)` points to the location where the mappings and files are located and, it is relative to the project’s base directory.
 
 Important to realize is that the files directory must be named `__files`, so it will be `app/wiremock/__files`.
 Response body definitions can be stored in this directory and referenced from the stubs that are stored in the `app/wiremock/mappings` directory.
 
-The WireMockServer is injected using `@Autowired` into the `CucumberConfiguration` and the `Steps` class, which is the glue-code that connects the Cucumber feature files with the actual implementation of the steps.
-
-```java
-public class CucumberConfiguration {
-    WireMockServer wireMockServer;
-
-    protected CucumberConfiguration(WireMockServer wireMockServer) {
-        this.wireMockServer = wireMockServer;
-        wireMockServer.start();
-    }
-}
-```
-
-The WireMockServer is used to start the WireMock server once the Cucumber context is created and the Runner started.
+The WireMockServer is injected using `@EnableWireMock(@ConfigureWireMock(registerSpringBean = true))` into the `CucumberConfiguration`.
 
 ```java
 @Slf4j
-@RequiredArgsConstructor
-@Scope(SCOPE_CUCUMBER_GLUE)
-public class Steps {
-    boolean systemIsUpAndRunning = false;
-
-    private final ApplicationContext context;
-
-    private final HttpTestClient testClient;
-
-    private final WireMockServer wireMockServer;
-
-    @Before
-    public void beforeEach() {
-        log.debug("Steps beforeEach");
-        wireMockServer.resetAll();
-    }
-…
+@CucumberContextConfiguration
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = App.class)
+@ActiveProfiles({"bddtest"})
+@EnableWireMock(@ConfigureWireMock(registerSpringBean = true))
+public class CucumberConfiguration {
 }
 ```
-The wireMockServer is used to reset the server before each test.
-The `WireMockConfig` class will also configure the WireMock client which will be used to interact with the WireMock server in the `CucumberConfiguration` and the `Steps` class.
+
+Important: you must explicitly configure WireMock as a Spring Bean, otherwise the WireMock server will not be injected when using the Cucumber runner.
+
+```java
+@EnableWireMock(@ConfigureWireMock(registerSpringBean = true))
+```
+
+There is no need to create a WireMock server explicitly, the annotation is all you need for most cases. That is, while you're using WireMock as your first implementation of the APIs you are still designing at this phase.
+Keep the location of your stubs in the default locations and you're golden. Configure WireMock as per the documentation when you feel like not using the convention.
+In case you would like to configure WireMock as a proxy, you can do so, knowing that the WireMock server is configured and injected into your environment using the @EnableWireMock annotation I showed a few lines up.
 
 ```java
     @Given(“the system is up and running”)
