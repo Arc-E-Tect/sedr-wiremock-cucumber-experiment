@@ -61,4 +61,4 @@ spring-boot-start-logging = { module = "org.springframework.boot:spring-boot-sta
 
 jakarta-servlet-api = "jakarta.servlet:jakarta.servlet-api:6.1.0"
 
-wiremock-spring-boot = "org.wiremock.integrations:wiremock-spring-boot:3.5.1"
+wiremock-spring-boot = "org.wiremock.integrations:wiremock-spring-boot:3.6.0"

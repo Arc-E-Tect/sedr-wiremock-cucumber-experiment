@@ -68,18 +68,15 @@ public class HttpTestClient {
     @Value("${server.baseurl}")
     private String baseUrl;
 
+    @Getter
     @Value("${wiremock.server.port}")
-    private Integer mockPort;
+    private Integer port;
 
     @Value("${response.timeout}")
     private Integer responseTimeout;
 
     @Getter
     protected final StepData stepData;
-
-    @Getter
-    @Value("${local.server.port}")
-    protected int port;
 
     @PostConstruct
     public WebClient initApiClient() {
@@ -88,10 +85,9 @@ public class HttpTestClient {
         log.debug(
                 "Base URL: {}, Mock Port: {}, Response Timeout: {}",
                 baseUrl,
-                mockPort,
+                port,
                 responseTimeout
         );
-        log.debug("Local Server Port: {}", port);
 
         HttpClient httpClient = HttpClient.create()
                 .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, responseTimeout)
@@ -100,7 +96,7 @@ public class HttpTestClient {
                                 .addHandlerLast(new WriteTimeoutHandler(3)));
 
         apiClient = WebClient.builder()
-                .baseUrl(baseUrl + ":" + mockPort)
+                .baseUrl(baseUrl + ":" + port)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.USER_AGENT, "Arc-E-Tect SEDR IFF")
@@ -111,7 +107,7 @@ public class HttpTestClient {
     }
 
     public String apiEndpoint() {
-        return baseUrl + ":" + mockPort + getApiEndpoint();
+        return baseUrl + ":" + port + getApiEndpoint();
     }
 
     protected final String getApiEndpoint() {return "/";}
