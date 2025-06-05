@@ -3,23 +3,23 @@
 [bundles]
 
 cucumber = ["cucumber-java", "cucumber-junit-platform-engine", "cucumber-spring"]
-junit = ["junit-jupiter", "junit-platform-launcher", "junit-platform-suite"]
+junit = ["junit-jupiter", "junit-platform-suite"]
 logging = ["slf4j-api", "logback-classic", "logback-core", "jansi"]
 spring-boot = ["spring-boot-starter", "spring-boot-start-web", "spring-boot-start-hateoas", "spring-boot-start-actuator",
     "spring-boot-start-webflux", "spring-boot-starter-test", "spring-boot-start-logging"]
 
 [plugins]
 
-io-freefair-lombok = { id = "io.freefair.lombok", version = "8.11" }
+io-freefair-lombok = { id = "io.freefair.lombok", version = "8.13.1" }
 
-org-springframework-boot = { id = "org.springframework.boot", version = "3.4.1" }
+org-springframework-boot = { id = "org.springframework.boot", version = "3.5.0" }
 
 io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
 
 [versions]
 
 jakarta = "6.1.0"
-junit-jupiter = "5.11.4"
+junit-jupiter = "5.13.0"
 junit = "5.11.0"
 junit-platform = "1.11.4"
 
@@ -30,7 +30,7 @@ slf4j = "2.0.16"
 logback = "1.5.15"
 jansi = "2.4.1"
 
-spring-boot = "3.4.1"
+spring-boot = "3.5.0"
 spring-dependency = "1.1.7"
 spring-restdocs = "3.0.3"
 spring-webflux = "6.2.1"
@@ -38,21 +38,19 @@ spring-webflux = "6.2.1"
 [libraries]
 
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit-jupiter" }
-junit-platform-launcher = "org.junit.platform:junit-platform-launcher:1.11.4"
-junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit" }
-junit-platform-suite = "org.junit.platform:junit-platform-suite:1.11.4"
+junit-platform-suite = "org.junit.platform:junit-platform-suite:1.13.0"
 
-cucumber-junit-platform-engine = "io.cucumber:cucumber-junit-platform-engine:7.20.1"
-cucumber-java = "io.cucumber:cucumber-java:7.20.1"
-cucumber-spring = "io.cucumber:cucumber-spring:7.20.1"
+cucumber-junit-platform-engine = "io.cucumber:cucumber-junit-platform-engine:7.23.0"
+cucumber-java = "io.cucumber:cucumber-java:7.23.0"
+cucumber-spring = "io.cucumber:cucumber-spring:7.23.0"
 
-slf4j-api = "org.slf4j:slf4j-api:2.0.16"
-logback-classic = "ch.qos.logback:logback-classic:1.5.16"
-logback-core = "ch.qos.logback:logback-core:1.5.16"
-jansi = "org.fusesource.jansi:jansi:2.4.1"
+slf4j-api = "org.slf4j:slf4j-api:2.0.17"
+logback-classic = "ch.qos.logback:logback-classic:1.5.18"
+logback-core = "ch.qos.logback:logback-core:1.5.18"
+jansi = "org.fusesource.jansi:jansi:2.4.2"
 
-spring-boot-starter = "org.springframework.boot:spring-boot-starter:3.4.1"
-spring-boot-starter-test = "org.springframework.boot:spring-boot-starter-test:3.4.1"
+spring-boot-starter = "org.springframework.boot:spring-boot-starter:3.5.0"
+spring-boot-starter-test = "org.springframework.boot:spring-boot-starter-test:3.5.0"
 spring-boot-start-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "spring-boot" }
 spring-boot-start-hateoas = { module = "org.springframework.boot:spring-boot-starter-hateoas", version.ref = "spring-boot" }
 spring-boot-start-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "spring-boot" }
@@ -61,4 +59,4 @@ spring-boot-start-logging = { module = "org.springframework.boot:spring-boot-sta
 
 jakarta-servlet-api = "jakarta.servlet:jakarta.servlet-api:6.1.0"
 
-wiremock-spring-boot = "org.wiremock.integrations:wiremock-spring-boot:3.6.0"
+wiremock-spring-boot = "org.wiremock.integrations:wiremock-spring-boot:3.10.0"
