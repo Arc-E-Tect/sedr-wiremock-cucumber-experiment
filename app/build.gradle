@@ -38,6 +38,10 @@ plugins {
     alias libs.plugins.org.springframework.boot
 }
 
+// set the version of junit-jupiter to the version defined in
+// the libs.versions.toml file explicitly
+ext['junit-jupiter.version'] = libs.versions.junit.jupiter.get()
+
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
