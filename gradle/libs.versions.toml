@@ -15,8 +15,10 @@ io-freefair-lombok = { id = "io.freefair.lombok", version = "8.14" }
 org-springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 
 io-spring-dependency-management = { id = "io.spring.dependency-management", version = "1.1.7" }
+nl-littlerobots-version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog-update" }
 
 [versions]
+version-catalog-update = "1.0.0"
 
 jakarta = "6.1.0"
 junit-jupiter = "5.13.4"

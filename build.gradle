@@ -1,0 +1,6 @@
+plugins {
+    alias libs.plugins.nl.littlerobots.version.catalog.update
+}
+
+// Add any root project configuration below as needed
+
