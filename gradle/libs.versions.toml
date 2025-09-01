@@ -10,7 +10,7 @@ spring-boot = ["spring-boot-starter", "spring-boot-start-web", "spring-boot-star
 
 [plugins]
 
-io-freefair-lombok = { id = "io.freefair.lombok", version = "8.14" }
+io-freefair-lombok = { id = "io.freefair.lombok", version = "8.14.2" }
 
 org-springframework-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 
@@ -22,15 +22,15 @@ jakarta = "6.1.0"
 junit-jupiter = "5.13.4"
 junit-platform = "1.13.4"
 
-cucumber = "7.27.0"
+cucumber = "7.27.2"
 
 slf4j = "2.0.17"
 logback = "1.5.18"
 jansi = "2.4.2"
 
-spring-boot = "3.5.4"
+spring-boot = "3.5.5"
 
-wiremock-spring = "3.10.0"
+wiremock-spring = "3.10.6"
 
 [libraries]
 
