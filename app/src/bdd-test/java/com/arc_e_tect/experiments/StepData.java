@@ -49,16 +49,21 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 @Scope(SCOPE_CUCUMBER_GLUE)
 public class StepData {
 
-    private ResponseEntity<JsonNode> responseEntity;
+    private ResponseEntity<String> responseEntity;
     private HttpEntity<String> request;
     private HttpStatusCode httpStatus;
 
-    public void setResponseEntity(ResponseEntity<JsonNode> responseEntity) {
+    public void setResponseEntity(ResponseEntity<String> responseEntity) {
         this.responseEntity = responseEntity;
         this.httpStatus = (responseEntity != null ? responseEntity.getStatusCode() : null);
     }
     public JsonNode getResponseJsonNode() {
-        return responseEntity.getBody();
+        try {
+            return new ObjectMapper().readTree(getResponseString());
+        } catch (JsonProcessingException e) {
+            log.info("Error converting response to JsonNode: {}", e.getMessage());
+        }
+        return null;
     }
 
     public RepresentationModel<?> getResponseRepresentationModel(RepresentationModel<?> modelRef) {

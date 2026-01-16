@@ -41,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.hateoas.RepresentationModel;
-import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -127,10 +126,10 @@ public class HttpTestClient {
                 .uri(url)
                 .retrieve();
 
-        ResponseEntity<JsonNode> response = spec
+        ResponseEntity<String> response = spec
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.empty())
                 .onStatus(HttpStatusCode::is5xxServerError, clientResponse -> Mono.empty())
-                .toEntity(JsonNode.class)
+                .toEntity(String.class)
                 .block();
 
         stepData.setResponseEntity(response);
@@ -151,7 +150,6 @@ public class HttpTestClient {
     public <T extends RepresentationModel<T>> T getBodyAsResource(T representationModel) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-        mapper.registerModule(new Jackson2HalModule());
 
         try {
             return (T) mapper.readValue(getBody(), new TypeReference<T>() {});
